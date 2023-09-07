@@ -1,6 +1,7 @@
 library carousel_slider;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:carousel_slider/carousel_state.dart';
 import 'package:flutter/gestures.dart';
@@ -267,7 +268,15 @@ class CarouselSliderState extends State<CarouselSlider>
       } else {
         alignment = horizontal ? Alignment.centerLeft : Alignment.topCenter;
       }
-      return Transform.scale(child: child, scale: scale!, alignment: alignment);
+      double diffOne = 1 - scale!;
+      double diffOneAmplifier = diffOne * 1.5;
+      double opacity = scale - diffOneAmplifier;
+      opacity = max(opacity, 0);
+      return Transform.scale(
+        child: Opacity(opacity: opacity, child: child),
+        scale: scale,
+        alignment: alignment,
+      );
     }
     return Transform.scale(
         scale: scale!,
